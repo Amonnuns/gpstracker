@@ -29,6 +29,7 @@ import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -258,6 +259,25 @@ public class NavigationScreen extends FragmentActivity implements OnMapReadyCall
     }
 
 
+    private void drawCircle(LatLng point, float accuracy, GoogleMap map){
+
+        // Instantiating CircleOptions to draw a circle around the marker
+        CircleOptions circleOptions = new CircleOptions();
+        // Specifying the center of the circle
+        circleOptions.center(point);
+        // Radius of the circle
+        circleOptions.radius(accuracy);
+        // Border color of the circle
+        circleOptions.strokeColor(0xFFFFFFFF);
+        // Fill color of the circle
+        circleOptions.fillColor(0x30ff0000);
+        // Border width of the circle
+        circleOptions.strokeWidth(2);
+        // Adding the circle to the GoogleMap
+        map.addCircle(circleOptions);
+
+    }
+
 
 
     @SuppressLint("MissingPermission")
@@ -273,7 +293,7 @@ public class NavigationScreen extends FragmentActivity implements OnMapReadyCall
         //Move a camêra para a localização desejada
         LatLng position = new LatLng(location.getLatitude(),location.getLongitude());
         mMap.addMarker(new MarkerOptions().position(position).title("Coordinate and Speed").anchor(0.5f,0.5f).flat(true).icon(BitmapDescriptorFactory.fromResource(R.drawable.nave_espacial)).rotation(location.getBearing())).setSnippet(info);
-
+        drawCircle(position, location.getAccuracy(),mMap);
 
         CameraPosition cameraPosition = getMapOrientation(location, position);
         mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
