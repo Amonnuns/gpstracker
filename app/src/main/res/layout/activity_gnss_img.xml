@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    tools:context=".GNSS_IMG">
+
+    <br.unifacs.gpstracker.GNSSView
+        android:id="@+id/gnssview"
+        android:layout_width="match_parent"
+        android:layout_height="640dp"
+        android:background="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/txtBEIDOU"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/satsCount"
+        android:layout_width="119dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="40dp"
+        android:fontFamily="sans-serif"
+        android:text="0"
+        android:textAlignment="center"
+        android:textColor="#54B5B8"
+        android:textSize="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="85dp"
+        android:layout_height="68dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/sat" />
+
+    <TextView
+        android:id="@+id/txtGPS"
+        android:layout_width="102dp"
+        android:layout_height="102dp"
+        android:layout_marginBottom="4dp"
+        android:fontFamily="sans-serif"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textColor="#ffff00"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gnssview"
+        app:layout_constraintVertical_bias="0.033" />
+
+    <TextView
+        android:id="@+id/txtBEIDOU"
+        android:layout_width="102dp"
+        android:layout_height="102dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="4dp"
+        android:fontFamily="sans-serif"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textColor="#00FFFF"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txtGALILEO"
+        app:layout_constraintTop_toBottomOf="@+id/gnssview" />
+
+    <TextView
+        android:id="@+id/txtGLONASS"
+        android:layout_width="102dp"
+        android:layout_height="102dp"
+        android:layout_marginBottom="4dp"
+        android:fontFamily="sans-serif"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textColor="#FF0000"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txtGPS"
+        app:layout_constraintTop_toBottomOf="@+id/gnssview"
+        app:layout_constraintVertical_bias="0.033" />
+
+    <TextView
+        android:id="@+id/txtGALILEO"
+        android:layout_width="102dp"
+        android:layout_height="102dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="4dp"
+        android:fontFamily="sans-serif"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textColor="#FF00FF"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txtGLONASS"
+        app:layout_constraintTop_toBottomOf="@+id/gnssview"
+        app:layout_constraintVertical_bias="0.011" />
+
+    <ImageView
+        android:id="@+id/imageGPS"
+        android:layout_width="79dp"
+        android:layout_height="74dp"
+        android:layout_marginBottom="13dp"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/txtGPS"
+        app:layout_constraintHorizontal_bias="0.695"
+        app:layout_constraintStart_toStartOf="@+id/txtGPS"
+        app:srcCompat="@drawable/estados_unidos" />
+
+    <ImageView
+        android:id="@+id/imageGLONASS"
+        android:layout_width="79dp"
+        android:layout_height="74dp"
+        android:layout_marginBottom="13dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/txtGLONASS"
+        app:layout_constraintHorizontal_bias="0.434"
+        app:layout_constraintStart_toEndOf="@+id/txtGPS"
+        app:srcCompat="@drawable/russia" />
+
+    <ImageView
+        android:id="@+id/imageGALILEO"
+        android:layout_width="79dp"
+        android:layout_height="74dp"
+        android:layout_marginBottom="13dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/txtBEIDOU"
+        app:layout_constraintStart_toEndOf="@+id/txtGLONASS"
+        app:srcCompat="@drawable/uniao_europeia" />
+
+    <ImageView
+        android:id="@+id/imageBEIDOU"
+        android:layout_width="79dp"
+        android:layout_height="74dp"
+        android:layout_marginBottom="13dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/txtBEIDOU"
+        app:layout_constraintStart_toStartOf="@+id/txtBEIDOU"
+        app:srcCompat="@drawable/china" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

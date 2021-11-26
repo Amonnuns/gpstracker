@@ -20,12 +20,14 @@ public class MainScreen extends AppCompatActivity implements View.OnClickListene
         Button buttonCredits = (Button) findViewById(R.id.buttonCredits);
         Button buttonGNSS = (Button) findViewById(R.id.buttonGNSS);
         Button buttonExit = (Button) findViewById(R.id.buttonExit);
+        Button buttonHistory = (Button) findViewById(R.id.buttonHistory);
 
         buttonConfig.setOnClickListener(this);
         buttonNavigation.setOnClickListener(this);
         buttonCredits.setOnClickListener(this);
         buttonGNSS.setOnClickListener(this);
         buttonExit.setOnClickListener(this);
+        buttonHistory.setOnClickListener(this);
     }
 
     @Override
@@ -40,11 +42,15 @@ public class MainScreen extends AppCompatActivity implements View.OnClickListene
                 startActivity(n);
                 break;
             case R.id.buttonGNSS:
+                startActivity(new Intent(this, GNSS_TXT.class));
                 break;
             case R.id.buttonCredits:
                 Intent x=new Intent(this,CreditsScreen.class);
                 startActivity(x);
                 break;
+            case R.id.buttonHistory:
+               startActivity(new Intent(this, HistoryScreen.class));
+               break;
             case R.id.buttonExit:
                 finish();
                 break;

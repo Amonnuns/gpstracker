@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/buttonMap"
+        android:layout_width="130dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="216dp"
+        android:layout_marginEnd="140dp"
+        android:background="@drawable/custom_button"
+        android:text="Visão Mapa"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/buttonLocations"
+        android:layout_width="130dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="380dp"
+        android:layout_marginEnd="140dp"
+        android:background="@drawable/custom_button"
+        android:text="Visão Tabela"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/buttonDelete"
+        android:layout_width="77dp"
+        android:layout_height="73dp"
+        android:layout_marginTop="620dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/ic_action_name"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

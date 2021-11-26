@@ -9,11 +9,49 @@
     tools:context=".MainScreen">
 
     <Button
+        android:id="@+id/buttonNavigation"
+        android:layout_width="130dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="68dp"
+        android:background="@drawable/custom_button"
+        android:text="Navegação"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <Button
+        android:id="@+id/buttonConfig"
+        android:layout_width="130dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="64dp"
+        android:background="@drawable/custom_button"
+        android:text="Configurações"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="@+id/buttonNavigation"
+        app:layout_constraintTop_toBottomOf="@+id/buttonNavigation" />
+
+    <Button
+        android:id="@+id/buttonHistory"
+        android:layout_width="130dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="140dp"
+        android:layout_marginTop="68dp"
+        android:background="@drawable/custom_button"
+        android:text="Histórico"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonConfig" />
+
+    <Button
         android:id="@+id/buttonGNSS"
         android:layout_width="130dp"
         android:layout_height="60dp"
-        android:layout_marginTop="112dp"
-        android:layout_marginEnd="50dp"
+        android:layout_marginTop="68dp"
+        android:layout_marginEnd="48dp"
         android:background="@drawable/custom_button"
         android:text="GNSS"
         android:textAllCaps="false"
@@ -25,7 +63,7 @@
         android:id="@+id/buttonCredits"
         android:layout_width="130dp"
         android:layout_height="60dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="64dp"
         android:background="@drawable/custom_button"
         android:text="Créditos"
         android:textAllCaps="false"
@@ -34,36 +72,11 @@
         app:layout_constraintTop_toBottomOf="@+id/buttonGNSS" />
 
     <Button
-        android:id="@+id/buttonConfig"
-        android:layout_width="130dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="60dp"
-        android:background="@drawable/custom_button"
-        android:text="Configurações"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        app:layout_constraintStart_toStartOf="@+id/buttonNavigation"
-        app:layout_constraintTop_toBottomOf="@+id/buttonNavigation" />
-
-    <Button
-        android:id="@+id/buttonNavigation"
-        android:layout_width="130dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="112dp"
-        android:background="@drawable/custom_button"
-        android:text="Navegação"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-    <Button
         android:id="@+id/buttonExit"
         android:layout_width="130dp"
         android:layout_height="60dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginBottom="104dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="72dp"
         android:background="@drawable/custom_button"
         android:text="Sair"
         android:textAllCaps="false"

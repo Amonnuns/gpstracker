@@ -7,12 +7,17 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
@@ -32,12 +37,29 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.core.Tag;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+
+import java.text.DecimalFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class NavigationScreen extends FragmentActivity implements OnMapReadyCallback {
 
     private static final int PERMISSION_FINE_LOCATION = 50;
+    private static Location oldlocation;
+
+    DecimalFormat df = new DecimalFormat("#.####");
+
 
     //Objeto pelo qual configuramos as funcionalidades de FusedLocationProviderClient
     LocationRequest locationRequest;
@@ -52,14 +74,16 @@ public class NavigationScreen extends FragmentActivity implements OnMapReadyCall
     SharedPreferences sharedPreferences;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
+        FirebaseApp.initializeApp(this);
         setContentView(R.layout.activity_navigation);
 
         locationRequest = LocationRequest.create();
-        locationRequest.setInterval(20000);
-        locationRequest.setFastestInterval(10000);
+        locationRequest.setInterval(10000);
+        locationRequest.setFastestInterval(5000);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY); //Obtendo informações de GPS
 
 
@@ -69,9 +93,30 @@ public class NavigationScreen extends FragmentActivity implements OnMapReadyCall
             @Override
             public void onLocationResult(@NonNull LocationResult locationResult) {
                 super.onLocationResult(locationResult);
-                System.out.println("Location Result");
                 Location location = locationResult.getLastLocation();
-                updateMap(mMap, location);
+
+
+
+                System.out.println("Updating map through new location");
+
+                if(oldlocation == null){
+                    oldlocation = location;
+                    updateMap(mMap, location);
+                }
+                else{
+
+                    String oldLat = df.format(oldlocation.getLatitude());
+                    String lat = df.format(location.getLatitude());
+                    String oldLong = df.format(oldlocation.getLongitude());
+                    String longi = df.format(location.getLongitude());
+
+                    System.out.println(oldLat + "---" + lat +"/"+oldLong+"----"+longi);
+
+                    if(!oldLat.equals(lat) && !oldLong.equals(longi)){
+                        System.out.println("Updating map through new location and compared");
+                        oldlocation = location;
+                        updateMap(mMap, location);
+                    }}
             }
         };
 
@@ -110,9 +155,12 @@ public class NavigationScreen extends FragmentActivity implements OnMapReadyCall
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             //Permissão do usuário para acessar a localização dele
             fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                @RequiresApi(api = Build.VERSION_CODES.O)
                 @Override
                 public void onSuccess(Location location) {
                     if (location != null) {
+                        System.out.println("Updating map through UpdateGPS");
+                        saveToFirebase(location);
                         updateMap(mMap, location);
                     }
                 }
@@ -197,10 +245,9 @@ public class NavigationScreen extends FragmentActivity implements OnMapReadyCall
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(x));
 
-
     }
 
-    private String infoMap(Location location){
+    private void infoMap(Location location){
         float speed ;
         String info,coordinate="",lat,lon, speedInfo;
 
@@ -218,22 +265,23 @@ public class NavigationScreen extends FragmentActivity implements OnMapReadyCall
             case R.id.radioButtonDecimal:
                 lat = Location.convert(location.getLatitude(),Location.FORMAT_DEGREES);
                 lon = Location.convert(location.getLatitude(),Location.FORMAT_DEGREES);
-                coordinate = String.format("%s %s ",lat,lon);
+                coordinate = String.format("lat:%s lon%s ",lat,lon);
                 break;
             case R.id.radioButtonMinuto:
                 lat = Location.convert(location.getLatitude(),Location.FORMAT_MINUTES);
                 lon = Location.convert(location.getLatitude(),Location.FORMAT_MINUTES);
-                coordinate = String.format("%s %s",lat,lon);
+                coordinate = String.format(" lat:%s lon:%s",lat,lon);
                 break;
             case R.id.radioButtonSegundo:
                 lat = Location.convert(location.getLatitude(),Location.FORMAT_SECONDS);
                 lon = Location.convert(location.getLatitude(),Location.FORMAT_SECONDS);
-                coordinate = String.format("%s %s",lat,lon);
+                coordinate = String.format(" lat:%s lon:%s",lat,lon);
                 break;
         }
 
         info = String.format("%s %s",coordinate,speedInfo);
-        return info;
+        TextView content = (TextView) findViewById(R.id.content);
+        content.setText(info);
 
     }
 
@@ -246,16 +294,16 @@ public class NavigationScreen extends FragmentActivity implements OnMapReadyCall
         switch(orientationGroup){
             case R.id.radioButtonNorth:
                 settings.setRotateGesturesEnabled(false);
-                return new CameraPosition.Builder().target(position).zoom(19).bearing(0).build();
+                return new CameraPosition.Builder().target(position).zoom(16).bearing(0).build();
             case R.id.radioButtonCourse:
                 settings.setRotateGesturesEnabled(false);
-                return new CameraPosition.Builder().target(position).zoom(19).bearing(location.getBearing()).build();
+                return new CameraPosition.Builder().target(position).zoom(16).bearing(location.getBearing()).build();
             case R.id.radioButtonNenhum:
                 settings.setAllGesturesEnabled(true);
-                return new CameraPosition.Builder().target(position).zoom(19).build();
+                return new CameraPosition.Builder().target(position).zoom(16).build();
         }
 
-        return null;
+        return new CameraPosition.Builder().target(position).zoom(16).build();
     }
 
 
@@ -288,17 +336,23 @@ public class NavigationScreen extends FragmentActivity implements OnMapReadyCall
         mMap.setMyLocationEnabled(false);
         mMap.clear();
 
-        String info = infoMap(location);
+        infoMap(location);
 
         //Move a camêra para a localização desejada
         LatLng position = new LatLng(location.getLatitude(),location.getLongitude());
-        mMap.addMarker(new MarkerOptions().position(position).title("Coordinate and Speed").anchor(0.5f,0.5f).flat(true).icon(BitmapDescriptorFactory.fromResource(R.drawable.nave_espacial)).rotation(location.getBearing())).setSnippet(info);
+        mMap.addMarker(new MarkerOptions().position(position).title("Coordinate and Speed").anchor(0.5f,0.5f).flat(true).icon(BitmapDescriptorFactory.fromResource(R.drawable.nave_espacial)).rotation(location.getBearing()));
         drawCircle(position, location.getAccuracy(),mMap);
 
         CameraPosition cameraPosition = getMapOrientation(location, position);
         mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void saveToFirebase(Location location){
 
+        Firebase fire = new Firebase();
+        fire.saveToFirebase(location);
+
+    }
 
 }
