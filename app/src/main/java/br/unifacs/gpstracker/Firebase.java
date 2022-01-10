@@ -26,8 +26,6 @@ import java.util.Map;
 
 public class Firebase {
 
-
-
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private Map<String,Object> loc;
     private static ArrayList<Map> locations = new ArrayList<>();

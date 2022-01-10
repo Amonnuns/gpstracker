@@ -60,8 +60,6 @@ public class HistoryMaps extends FragmentActivity implements OnMapReadyCallback 
         CameraPosition cameraPosition = new CameraPosition.Builder().target(firstLoc).zoom(15).build();
 
 
-
-
         if (locations.size() == 0){
             locations = loc.getLocations();
         }
